@@ -7,9 +7,11 @@ const redirect = require('micro-redirect');
 
 const provider = 'slack';
 
-const microAuthSlack = ({ clientId, clientSecret, callbackUrl, path = '/auth/slack', scope = 'identity.basic' }) => {
+const microAuthSlack = ({ clientId, clientSecret, callbackUrl, team, path = '/auth/slack', scope = 'identity.basic' }) => {
   const getRedirectUrl = state => {
-    return `https://slack.com/oauth/authorize?client_id=${clientId}&redirect_uri=${callbackUrl}&scope=${scope}&state=${state}`;
+    let redirectUrl = `https://slack.com/oauth/authorize?client_id=${clientId}&redirect_uri=${callbackUrl}&scope=${scope}&state=${state}`;
+    if (team) redirectUrl += `&team=${team}`;
+    return redirectUrl
   };
 
   const states = [];
